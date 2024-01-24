@@ -1,22 +1,16 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class DinnerConstructor {
     Random random = new Random();
-    Scanner scanner = new Scanner(System.in);
     HashMap<String, ArrayList<String>> dishMap; // HashMap (K - dishType , V - dishNameList)
 
     DinnerConstructor() {
         dishMap = new HashMap<>();
     }
 
-    void addNewDish() {
-        System.out.println("Введите тип блюда:");
-        String dishType = scanner.nextLine();
-        System.out.println("Введите название блюда:");
-        String dishName = scanner.nextLine();
+    void addNewDish(String dishType, String dishName) {
 
         // Checking for an existing type
         if (dishMap.containsKey(dishType)) { // We have type already - add new dish in list of current type
@@ -26,34 +20,9 @@ public class DinnerConstructor {
             newDishNameList.add(dishName);
             dishMap.put(dishType, newDishNameList);
         }
-        System.out.println("Блюдо успешно добавлено!");
     }
 
-    void generateDishCombo() {
-        System.out.println("Начинаем конструировать обед...");
-
-        System.out.println("Введите количество наборов, которые нужно сгенерировать:");
-        int numberOfCombos = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
-                "Для завершения ввода введите пустую строку");
-
-        ArrayList<String> inputDishTypes = new ArrayList<>();
-        while (true) { // adding input Types to new list
-            String dishType = scanner.nextLine();
-            if (dishType.isEmpty()) {
-                break;
-            }
-
-            if (dishMap.containsKey(dishType)) { // if we have dish type in map - add this type in new list
-                inputDishTypes.add(dishType);
-            } else { // if we don't - exception
-                System.out.println("Такого типа блюда нет в меню \n Попробуйте ещё раз");
-            }
-        }
-        //at this stage, we have a list of the inputted types of dishes
-
+    void generateDishCombo(int numberOfCombos, ArrayList<String> inputDishTypes) {
         for (int bound = 1; bound <= numberOfCombos; bound++) {
             System.out.println("Комбо " + bound);
             ArrayList<String> randomisedDishNames = new ArrayList<>();
@@ -72,11 +41,25 @@ public class DinnerConstructor {
 
     void showMenu() {
         for (String dishType : dishMap.keySet()) {
-            System.out.println("Тип блюда " + dishType);
-            System.out.println("Блюда: ");
+            System.out.println(dishType);
             System.out.println(dishMap.get(dishType));
             System.out.println();
         }
     }
 
+    boolean checkType(String type) {
+        return dishMap.containsKey(type);
+    }
+
+    boolean checkName(String type, String name) {
+        return dishMap.get(type).contains(name);
+    }
+
+    boolean hasDuplicateName(String dishType, String dishName) {
+        if (!dishMap.isEmpty()) {
+            return checkName(dishType, dishName);
+        } else {
+            return false;
+        }
+    }
 }

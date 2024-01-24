@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -11,10 +12,42 @@ public class Main {
 
             switch (command) {
                 case "1":
-                    dc.addNewDish();
+                    System.out.println("Введите тип блюда:");
+                    String dishType = scanner.nextLine();
+                    System.out.println("Введите название блюда:");
+                    String dishName = scanner.nextLine();
+                    if (!dc.hasDuplicateName(dishType, dishName)) {
+                        dc.addNewDish(dishType, dishName);
+                    } else {
+                        System.out.println("Такое блюдо уже есть!");
+                    }
                     break;
                 case "2":
-                    dc.generateDishCombo();
+                    System.out.println("Начинаем конструировать обед...");
+
+                    System.out.println("Введите количество наборов, которые нужно сгенерировать:");
+                    int numberOfCombos = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
+                            "Для завершения ввода введите пустую строку");
+                    ArrayList<String> inputDishTypes = new ArrayList<>();
+
+                    while (true) {
+                        String nextItem = scanner.nextLine().trim();
+                        if (nextItem.isBlank()) {
+                            break;
+                        } else {
+                            if (dc.checkType(nextItem)) { // we have input item in keys of dish hash map
+                                inputDishTypes.add(nextItem);
+                            } else {
+                                System.out.println("Вы ввели тип блюда, которого нет в меню.");
+                            }
+                        }
+                    }
+                    //реализуйте ввод типов блюд
+
+                    dc.generateDishCombo(numberOfCombos, inputDishTypes);
                     break;
                 case "3":
                     dc.showMenu();
@@ -32,4 +65,5 @@ public class Main {
         System.out.println("3 - Показать меню");
         System.out.println("4 - Выход");
     }
+
 }
