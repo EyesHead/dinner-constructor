@@ -19,15 +19,12 @@ public class DinnerConstructor {
         String dishName = scanner.nextLine();
 
         // Checking for an existing type
-        for (String dishMapKey : dishMap.keySet()) {
-            if (dishType.equals(dishMapKey)) { // We have type already - add new dish in list of current type
-                ArrayList<String> existingDishNameList = dishMap.get(dishMapKey);
-                existingDishNameList.add(dishName);
-            } else { // Type doesn't exist - create new list and put in our map
-                ArrayList<String> newExistingDishNameList = new ArrayList<>();
-                newExistingDishNameList.add(dishName);
-                dishMap.put(dishType, newExistingDishNameList);
-            }
+        if (dishMap.containsKey(dishType)) { // We have type already - add new dish in list of current type
+            dishMap.get(dishType).add(dishName);
+        } else { // Type doesn't exist - create new list and put in our map
+            ArrayList<String> newDishNameList = new ArrayList<>();
+            newDishNameList.add(dishName);
+            dishMap.put(dishType, newDishNameList);
         }
         System.out.println("Блюдо успешно добавлено!");
     }
