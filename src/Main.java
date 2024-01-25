@@ -18,6 +18,7 @@ public class Main {
                     String dishName = scanner.nextLine();
                     if (!dc.hasDuplicateName(dishType, dishName)) {
                         dc.addNewDish(dishType, dishName);
+                        System.out.println("Меню успешно обновлено!");
                     } else {
                         System.out.println("Такое блюдо уже есть!");
                     }
